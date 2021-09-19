@@ -1,3 +1,41 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu slide ='start' menuId= 'menuPrincipal'>
+    <ion-header>
+      <ion-toolboar color= 'primary'>
+      <ion-title>
+        Mi App 
+      </ion-title>
+    </ion-toolboar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle>
+          <ion-item routerLink= "/restaurantes/tabs/descubrir">
+            <ion-icon name= 'search' slot= 'start'></ion-icon>
+            <ion-lebel> Descubrir </ion-lebel>
+          </ion-item>
+
+          <ion-item routerLink= "/restaurantes/tabs/descubrir">
+            <ion-icon name= 'ticket' slot= 'start'></ion-icon>
+            <ion-lebel> Ofertas </ion-lebel>
+          </ion-item>
+
+          <ion-item routerLink= "/Reservaciones">
+            <ion-icon name= 'calendar-online' slot= 'start'></ion-icon>
+            <ion-lebel> Reservaciones </ion-lebel>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name= 'exit-outline' slot= 'start'></ion-icon>
+            <ion-lebel> Salir </ion-lebel>
+          </ion-item>
+
+          
+
+        </ion-menu-toggle>
+       </ion-list>
+      </ion-content>
+    
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>
