@@ -1,18 +1,17 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>restaurantes</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
+  <ionic-tab-bar slot="start">
+    <ion-tab-buttom tab="Descubrir">
+      <ion-label>Descubrir</ion-label>
+      <ion-icon name="serch"></ion-icon>
+    </ion-tab-buttom>
+  </ionic-tab-bar>
 
-<ion-content>
+  <ionic-tab-bar slot="start">
+    <ion-tab-buttom tab="Ofertas">
+      <ion-label>Ofertas</ion-label>
+      <ion-icon name="ticket-online"></ion-icon>
+    </ion-tab-buttom>
+  </ionic-tab-bar>
+</ion-tabs>
 
-  <ion-list >
-    <ion-item *ngfor="let rest of restaurantes" [routerLink]= "['./', rest.id]">
-      <ion-avatar slot="start">
-        <ion-inge [src]="rest.ingUrl"></ion-inge>
-      </ion-avatar>
-      <ion-lebel> {{rest.titulo}} </ion-lebel>
-    </ion-item>
-  </ionlist>>
 
-</ion-content>

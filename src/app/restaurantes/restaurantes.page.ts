@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Console } from 'console';
 import { Restaurante } from './restaurante.model';
 import { RestauranteService } from './restaurante.service';
 import { RestaurantesPageRoutingModule } from './restaurantes-routing.module';
@@ -9,35 +10,16 @@ import { RestaurantesPageModule } from './restaurantes.module';
   templateUrl: './restaurantes.page.html',
   styleUrls: ['./restaurantes.page.scss'],
 })
-export class RestaurantesPage implements OnInit, OnDestroy {
+export class RestaurantesPage implements OnInit {
   restaurantes: Restaurante[];
 
   
-    constructor(private restauranteService: RestauranteService) {}
-
-  ngOnInit() {
-    console.warn('ngOnInit');
+    constructor() {}
     
- }
-  ionVewWillEnter(){
-  console.log('ionVewWillEnter');
-  this.restaurantes = this.restauranteService.getAllRestaurantes();
-  }
+    ngOnInit(){
+      console.warn('ngOnInit');
+    }
 
-  ionVewDidEnter(){
-    console.log('ionVewDidEnter');
-  }
-
-  ionVewWillLeve(){
-    console.log('ionVewWillLeve');
-  }
-
-  ionVewDidLeave(){
-    console.log('ionVewDidLeave');
-  }
-
-  ngOnDestroy(){
-    console.warn('ngOnDestoy');
-  }
+  
 
 }
