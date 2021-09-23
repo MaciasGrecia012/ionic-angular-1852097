@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Button } from 'protractor';
-import { Restaurante } from '../restaurante.model';
-import { RestauranteService } from '../restaurante.service';
+import { Restaurante } from '../../interfaces/restaurante.model';
+import { RestauranteService } from '../../service/restaurante.service';
 
 @Component({
   selector: 'app-restaurante-detalle',

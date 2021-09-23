@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Restaurante } from '../restaurante.model';
-import { RestauranteService } from '../restaurante.service';
+import { Restaurante } from '../../interfaces/restaurante.model';
+import { RestauranteService } from '../../service/restaurante.service';
 
 @Component({
   selector: 'app-descubrir',

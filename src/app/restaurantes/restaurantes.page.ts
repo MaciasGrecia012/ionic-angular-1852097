@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Console } from 'console';
-import { Restaurante } from './restaurante.model';
-import { RestauranteService } from './restaurante.service';
+import { Restaurante } from '../interfaces/restaurante.model';
+import { RestauranteService } from '../service/restaurante.service';
 import { RestaurantesPageRoutingModule } from './restaurantes-routing.module';
 import { RestaurantesPageModule } from './restaurantes.module';
 
