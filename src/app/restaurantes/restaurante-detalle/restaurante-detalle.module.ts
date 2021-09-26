@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { RestauranteDetallePageRoutingModule } from './restaurante-detalle-routing.module';
 
 import { RestauranteDetallePage } from './restaurante-detalle.page';
+import { NuevaReservacionModule } from 'src/app/reservaciones/nueva-reservacion/nuevas-reservacion.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RestauranteDetallePageRoutingModule
+    RestauranteDetallePageRoutingModule,
+    NuevaReservacionModule
   ],
   declarations: [RestauranteDetallePage]
 })

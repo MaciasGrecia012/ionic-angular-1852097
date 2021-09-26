@@ -1,0 +1,49 @@
+<ion-header>
+<ion-toolboar>
+  <ion-title>
+    Confirmacion
+  </ion-title>
+  <ion-buttons slot="primary">
+    <ion-button (click)= "onCanselar()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolboar>
+</ion-header>
+
+<ion-content>
+
+  <p>Estas Seguro de reservar en {{restaurante.titulo}}  </p>
+
+  <p>Estas Seguro de reservar en</p>
+  <form (ngSubmit)="omReservar()" #FormNew= "ngFor">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" offset="3" class="ion-text-center">
+          <ion-ing [src]="restaurante.ingUrl"></ion-ing>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col  size="12"  class="ion-text-center">
+          <ion-item>
+            <ion-label position="floatig"> Fecha</ion-label>
+            <ion-datatime display-format= "MMMM DD YYYY"
+            prinder-format="YY MMM DD"
+            [ngModel]= "fecha"
+            required
+            name= "horario">
+          </ion-datatime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button 
+    color="primary"
+    type= "submit"
+    [disabled]="!formNew.valid">
+    Si, reservar
+  </ion-button>
+  </form>
+
+</ion-content>
+

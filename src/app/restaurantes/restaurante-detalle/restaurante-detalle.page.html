@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color= "primary"> 
     <ion-bottom slot="start">
-      <ion-back-bottom defaulHiref= "/restaurante"></ion-back-bottom>
+      <ion-back-bottom defaulHiref= "/restaurantes"></ion-back-bottom>
     </ion-bottom>
     <ion-title> {{restaurante.titulo}} </ion-title>
 
@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-text-center">
 <ion-grit>
   <ion-row>
     <ion-col>
@@ -25,7 +25,12 @@
 
   <ion-row>
   <ion-col>
-    <h3> Platillos </h3>
+    <ion-button 
+    color= "primary"
+    class="ion-text-center"
+    (click)="onReservarRestaurante()">
+    Reservar
+  </ion-button>
   </ion-col>
 </ion-row>
 

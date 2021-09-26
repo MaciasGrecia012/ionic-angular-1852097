@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Reservaciones } from '../interfaces/reservaciones.model';
 
 @Component({
   selector: 'app-reservaciones',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReservacionesPage implements OnInit {
 
-  constructor() { }
+  reservaciones: Reservaciones[]=[];
+  constructor(
+    private reservacionesService: Reservaciones
+  ) {}
+
+
+   ionViewWillEnter(){
+    this.reservaciones = this.reservacionesService.getAllReservaciones();
+   }
+
+
 
   ngOnInit() {
+    
+    }
+    
   }
 
-}
+
