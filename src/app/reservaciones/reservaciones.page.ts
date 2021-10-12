@@ -15,7 +15,7 @@ export class ReservacionesPage implements OnInit {
 
 
    ionViewWillEnter(){
-    this.reservaciones = this.reservacionesService.getAllReservaciones();
+    this.reservaciones = this.reservacionesService.getAllREservaciones();
    }
 
 
