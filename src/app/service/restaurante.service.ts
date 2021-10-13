@@ -1,37 +1,75 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Restaurante } from '../interfaces/restaurante.model';
+import { BehaviorSubject } from 'rxjs';
+import {map, retry, tap} from 'rxjs/operators';
+import { Key } from 'readline';
+import { Key, Key } from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestauranteService {
 
+    constructor(private http: HttpClient){}
+
+    private _restaurantes= new BehaviorSubject  <Restaurante[]> ([]);
+    get restaurantes(){
+      return this._restaurantes.asObservable();
+
+    }
+    addRestaurante(restaurante: Restaurante){
+     this.http.post<any>(
+       environment.firebaseUrl + 'restaruantes.jason', {...restaurante}
+       ).subscribe(data=> {
+       console.log(data);
+     })
+    }
+    fetchRestaurantes(){
+      return this.http.get <{[Key: string]: Restaurante}>(
+        environment.firebaseUrl + 'restaurantes.json'
+      )
+      .pipe(map(dta =>{
+        const rest= [];
+        for(const Key in dta){
+          if (dta.hasOwnProperty(Key)){
+            rest.push(
+              new Restaurante( Key, dta[Key].titulo, dta[Key].imgUrl, dta[Key].platillos
+                ));
+          }
+        }
+        return rest;
+          }),
+          tap(rest => {
+          this._restaurantes.next(rest);
+          }));
+    }
   
-    private restaurantes: Restaurante[]=[
-      {id: 1, titulo: "Little Cessar", platillos: ["Pizza", "Alitas"], ingUrl: "https://media-exp1.licdn.com/dms/image/C4E0BAQELl8IRHlkH7Q/company-logo_200_200/0/1530545745520?e=2159024400&v=beta&t=FayEFWyz_6NtsQwWycKJANTFrSkghPu8GGls0z2XdVY"},
-      {id: 1, titulo: "PapaJoness", platillos: ["Tacos Mariscos", "TAcos de CArne asada"], ingUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnUvGb3Hhk9HsB6nAvZnTX_uNO1jS985HwhwBPQ_n8q4GA0IVfZVzRwos544sh60hZOEs&usqp=CAU"},
-      {id: 1, titulo: "Cavo Grill", platillos: ["Tacos", "MAriscos"], ingUrl: "https://static.wixstatic.com/media/5e5c92_affdd3dd508a433c84fbf419644e3680.png/v1/fill/w_291,h_226,al_c,q_85,usm_0.66_1.00_0.01/5e5c92_affdd3dd508a433c84fbf419644e3680.webp"   }
-    ];
+  /*getAllRestaurantes(){
+    this.addRestaurante(this.restaurantes[0]);
+    this.addRestaurante(this.restaurantes[1]);
+    this.addRestaurante(this.restaurantes[2]);
+    return[...this.restaurantes];
+  }*/
 
-  constructor() { }
+  getRestaurante(restauranteid: string){
+    const url = environment.firebaseUrl + 'restaurantes/$(restauranteId).jason';
+    return this.http.get <Restaurante> (url)
+    .pipe(map (dta =>{
+      return new Restaurante( restauranteid, dta.titulo, dta.imgUrl, dta.platillos);
 
-  getAllRestaurantes(){
-    return [...this.restaurantes];
-  }
-
-  getRestaurante(restauranteid: number){
-    return {...this.restaurantes.find(r => {
-      return r.id === restauranteid;
-    })};
+    }));
+    
+    }
 
 
-  }
 
-  delateRestaurante(restauranteid:number){
-    this,this.restaurantes = this.restaurantes.filter(rest=>{
+  /*delateRestaurante(restauranteid:string){
+    this.restaurantes = this.restaurantes.filter(rest=>{
       return rest.id !== restauranteid;
       })
-  }
+  }*/
 
 
 

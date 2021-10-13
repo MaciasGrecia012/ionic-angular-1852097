@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,12 +51,54 @@ export class LoginPage implements OnInit {
    if(this.isLoadingMode){
 
    }
+  
    else{
-
+     this.authenticate(email,pass);
    }
 
  }
+ 
  onSwitchAuthMode(){
    this.isLoadingMode = !this.isLoadingMode;
+ }
+
+ showAlert(titulo:string, mensaje: string){
+   this.alertCtrl.create({
+     header: titulo, 
+     message: mensaje,
+     button: ['OK']
+   }).then(alertEl=>alertEl,present());
+ }
+ authenticate(email:string, password: string){
+   this.isLoading=true;
+   this.loginService.login();
+   this.loadingCtrl.create({
+     keyboardClose: true,
+     message: 'Validado....'
+   })
+   .then(loadingEl=>{
+     loadingEl.present();
+     this.loginService.signup(email,password).subcribe(response =>{
+       console.log(response);
+       this.isLoading= false;
+       loadingEl.dismiss();
+       this.router.navigateByUrl('/restaurantes/tabs');
+     },
+     ErrorResponse =>{
+       this.isLoading= false;
+       loadingEl.dismiss();
+       const error= ErrorResponse.error.error.message;
+       let mensaje = 'Acceso Incorrecto!';
+
+       switch(error){
+         case 'EMAIL_EXISTS':
+           mensaje = 'Usuario ya existente!';
+           break;
+       }
+       console.log(mensaje);
+       this.showAlert('Error', mensaje);
+       
+     });
+   });
  }
 }

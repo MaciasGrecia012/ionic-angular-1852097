@@ -58,9 +58,9 @@
        expand="block" 
        color="primary"
         *ngIf="!isLoading"
-       (click)="onLogin()"
+        type= "submit"
        [disable]="!myForm.valid">
-       {{isLoginMode ? 'Login': 'Guardar'}}
+       {{isLoginMode ? 'Guardar': 'Entrar'}}
        </ion-button>
        <ion-spinner *ngIf="isLoading"></ion-spinner>
       <ion-button 

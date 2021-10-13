@@ -1,36 +1,48 @@
 <ion-header>
   <ion-toolbar color= "primary"> 
-    <ion-bottom slot="start">
-      <ion-back-bottom defaulHiref= "/restaurantes"></ion-back-bottom>
-    </ion-bottom>
-    <ion-title> {{restaurante.titulo}} </ion-title>
+    <ion-bottons slot="start">
+      <ion-back-botton defaulHiref= "/restaurantes"></ion-back-botto>
+    </ion-bottons>
+      <div *ngIf= "isLoading">
+        <ion-spinner color= "primary"></ion-spinner>
+      </div>
 
-    <ion-bottom slot="primary">
-      <ion-bottom (click)= "onDelateRest">
+    <ion-title *ngIf= "!isLoading"> {{restaurante.titulo}} </ion-title>
+
+    <ion-botton slot="primary">
+      <ion-botton (click)= "onDelateRestaurante()">
         <ion-icon name= "trash" slot="icon-only"></ion-icon>
-      </ion-bottom>
-    </ion-bottom>
+      </ion-botton>
+    </ion-botton>
 
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-text-center">
-<ion-grit>
+  <div *ngIf= "isLoading">
+   <ion-spinner color="primary"></ion-spinner>
+  </div>
+<ion-grit *ngIf= "!isLoading">
   <ion-row>
     <ion-col>
-      <ion-ing style="height: 200px;" [src]="restaurante.ingUrl"></ion-ing>
+      <ion-ing  [src]="restaurante.ingUrl" style="height: 200px;"></ion-ing>
     </ion-col>
   </ion-row>
 
-  <ion-row>
-  <ion-col>
+  <!--  <ion-row>
+   <ion-col>
     <ion-button 
     color= "primary"
     class="ion-text-center"
     (click)="onReservarRestaurante()">
     Reservar
   </ion-button>
+  </ion-col>
+</ion-row> -->
+<ion-row>
+  <ion-col>
+    <h3 class="ion-text-center">Platillos</h3>
   </ion-col>
 </ion-row>
 
