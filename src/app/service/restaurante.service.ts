@@ -46,13 +46,13 @@ export class RestauranteService {
           }));
     }
   
-  /*getAllRestaurantes(){
+  getAllRestaurantes(){
     this.addRestaurante(this.restaurantes[0]);
     this.addRestaurante(this.restaurantes[1]);
     this.addRestaurante(this.restaurantes[2]);
     return[...this.restaurantes];
-  }*/
-
+  }
+  
   getRestaurante(restauranteid: string){
     const url = environment.firebaseUrl + 'restaurantes/$(restauranteId).jason';
     return this.http.get <Restaurante> (url)
@@ -65,11 +65,11 @@ export class RestauranteService {
 
 
 
-  /*delateRestaurante(restauranteid:string){
+  delateRestaurante(restauranteid:string){
     this.restaurantes = this.restaurantes.filter(rest=>{
       return rest.id !== restauranteid;
       })
-  }*/
+  }
 
 
 

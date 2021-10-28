@@ -2,16 +2,90 @@ import { Injectable } from '@angular/core';
 import { Restaurante } from '../interfaces/restaurante.model';
 import { Reservaciones } from '../interfaces/reservaciones.model';
 import { RestauranteDetallePage } from '../restaurantes/restaurante-detalle/restaurante-detalle.page';
+import { BehaviorSubject, pipe } from 'rxjs';
+import { Key } from 'selenium-webdriver';
+import { environment } from 'src/environments/environment';
+import { map, switchMap, tap} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { LoginService } from '../login/login.service';
+import { reservaciones } from '../reservaciones/reservaciones.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservacionService {
- private reservaciones: Reservaciones[] =[
-   {id: "", restauranteid: '2' , restaurante: 'Cabo Gril', horario: 'Sabado 25 Diciembre - 9:00 pm', imgUrl: 'https://static.wixstatic.com/media/5e5c92_affdd3dd508a433c84fbf419644e3680.png/v1/fill/w_291,h_226,al_c,q_85,usm_0.66_1.00_0.01/5e5c92_affdd3dd508a433c84fbf419644e3680.webp'},
-   {id: "", restauranteid: '1', restaurante: 'Pipper Pizza', horario: 'Sabado 06 de Noviembre - 1:00 pm', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPwdyCqGjw-S2byQjwx5CIoGJhfeEhFh5WIw&usqp=CAU' },
- ];
+  
+  private _reservaciones = new BehaviorSubject <Reservaciones[]>([]);
+  usuario = null;
+  get reservaciones(){
+    return this._reservaciones.asObservable();
+  }
+ 
+ 
+ 
+  fetchReservaciones(){
+    environment.firebaseUrl+ 'Reservaciones.jason?orderBy?"uasuarioId"&equealTo='+this.usuarioId
+    return this.http.get<{[Key: string]: Reservaciones }>(
+      
+    )
+    .pipe(map(dta =>{
+      const rest= [];
+      for(const Key in dta){
+        if(dta.hasOwnProperty(Key)){
+          rest.push(new Reservaciones(
+            Key,
+            dta[Key].restauranteid,
+            dta[Key].restaurante,
+            dta[Key].horario,
+            dta[Key].imgUrl,
+            dta[Key].usuarioId,
+          ));
+        }
+      }
+      return rest;
+       
+    }),
+      tap(rest=>{
+        this._reservaciones.next(rest);
+      })
+      
+     );
+     }
+     addReservaciones(restaurante: Restaurante, horario: string){
+       const rsv = new Reservaciones(
+         null,
+         restaurante.id,
+         restaurante.titulo,
+         horario,
+         restaurante.imgUrl,
+         this.usuarioId
+       );
+       this.http.post<any>(environment.firebaseUrl+'reservaciones.json', {...rsv}).subcribe(data=>{
+        console.log(data);
+       });
+     }
+     removeReservacion(reservacionId: string){
+      let Url = '${environment.firebaseUrl}reservaciones/${ reservaciones}.json';
+      return this.http.dalate(Url)
+      .pipe(switchMap(()=> {
+        return this.reservaciones;
+      }), take(1), tab(rsvs =>{
+         this._reservaciones.next(rsvs.fliter(r => r.id!== reservacionId))
+      }))
+  
 
+    }
+    constructor(
+      private http:HttpClient,
+      private loginService: LoginService
+       ){
+         this.loginService.usuarioId.subcribe(usuario =>{
+           this.usuarioId = usuarioId;
+         });
+       }
+     }
+
+    
   getAllReservaciones(){
     return [...this.reservaciones];
   }
@@ -24,6 +98,30 @@ export class ReservacionService {
         imgUrl: rest.ingUrl,
       });
   }
-    constructor() { }
+   getREservacion(reservacionId: string){
+     const url = environment.firebaseUrl+ 'reservaciones/${reservacionId}.json';
 
-}
+     return this.http.get <Reservacion>(url)
+     .pipe(map(dta =>{
+       return new Reservacion(
+         reservacionId,
+         dta.restauranteid,
+         dta.restaurante,
+         dta.nombre,
+         dta.horario,
+         dta.imgUrl,
+         dta.usuarioId
+       );
+     }));
+   }
+
+   updateReservacion(reservacionid: string, reservacion: Reservaciones){
+    
+    const url = environment.firebaseUrl+'reservaciones/${reservacionId}.json';
+
+    this.http.put<any>(url, {...reservaciones}.subcribe(data =>{
+      console.log(data);
+    }))
+   }
+
+
