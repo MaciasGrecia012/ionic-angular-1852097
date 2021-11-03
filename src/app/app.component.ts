@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onLogout(){
    this.loginServece.logout();
    this.router.navigateByUrl('/login');
+   
   }
 
 }
